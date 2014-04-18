@@ -5,9 +5,9 @@
 int main()
 {
 	float fahr, celcius;
-	int upper, lower, step;
+	int lower, step;
 
-	upper = celcius= 300;
+	celcius= 300;
 	lower = 0;
 	step = 20;
 

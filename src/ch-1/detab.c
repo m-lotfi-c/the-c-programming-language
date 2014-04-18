@@ -6,7 +6,7 @@ void detab(int lineidx, int tabstop);
 
 int main()
 {
-	int c, lineidx, offset;
+	int c, lineidx;
 
 	lineidx = 0;
 	while ((c = getchar()) != EOF) {

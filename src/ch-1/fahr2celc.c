@@ -7,9 +7,9 @@ float tocelcius(float fahr);
 int main()
 {
 	float fahr;
-	int upper, lower, step;
+	int lower, step;
 
-	upper = fahr = 300;
+	fahr = 300;
 	lower = 0;
 	step = 20;
 

@@ -34,7 +34,7 @@ int main()
 	for (i = 0; i < MAXLEN; i++) {
 		if (nwords[i] > 0) {
 			/* print label */
-			printf("%4d: ", i, nwords[i]);
+			printf("%4d: ", nwords[i]);
 
 			/* print bar */
 			for (j = 0; j < nwords[i]; j++) {
