@@ -1,28 +1,27 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define TABSTOP       4    /* number of spaces that represent a tab */
 #define MAXWHITESPACE 1000 /* maximum contiguous whitespace characters */
 
-void capture(char first, char buf[]);
-int entab(int tabstop, char whitespace[]);
+int capture(char first, char buf[]);
+void entab(int tabstop, char whitespace[]);
 
 int main()
 {
-	int c, lineidx, offset, capturing;
+	int c;
 	char captured[MAXWHITESPACE];
 
-	lineidx = 0;
 	while ((c = getchar()) != EOF) {
 		if (c == '\t' || c == ' ') {
-			capture(c, captured);
-			lineidx = entab(TABSTOP, captured);
+			c = capture(c, captured);
+			entab(TABSTOP, captured);
+			putchar(c);
 		}
 		else if (c == '\n') {
-			lineidx = 0;
 			putchar(c);
 		}
 		else {
-			++lineidx;
 			putchar(c);
 		}
 	}
@@ -32,21 +31,52 @@ int main()
 
 int capture(char first, char buf[])
 {
-	int c;
+	int c, idx = 0;
 
-	buf[0] = first;
-	while ((c = getchar()) != EOF) {
-	
+	buf[idx++] = first;
+	while ((c = getchar()) != EOF && (c == ' ' || c == '\t')) {
+		buf[idx++] = c;
+		if (idx >= MAXWHITESPACE) {
+			fprintf (stderr, "Too much whitespace");
+			exit (EXIT_FAILURE);
+		}
 	}
+	buf[idx] = '\0';
 
+	return c;
 }
 
-int entab(int tabstop, char whitespace[])
+void entab(int tabstop, char whitespace[])
 {
-	int spaces, i;
+	int i = 0, j = 0, k;
 
-	spaces = tabstop - (lineidx % tabstop);
-	for (i = 0; i < spaces; ++i) {
-		putchar(' ');
+	while (whitespace[i] != '\0') {
+		if (whitespace[i] == '\t') {
+			putchar(whitespace[i++]);
+			continue;
+		}
+
+		/* consume up to tabstop more whitespaces */
+		while (j++ < tabstop) {
+			/* just output a tab if we encounter one */
+			if (whitespace[++i] == '\t' ) {
+				i++;
+				break;
+			}
+			else if (whitespace[i] == '\0') { 
+				/* if we had tabstop spaces output a tab */
+				if (j == tabstop)
+					break;
+
+				/* otherwise output trailing spaces */
+				for (k = 0; k < j; k++) {
+					putchar(' ');
+				}
+				return;
+			}
+		}
+
+		putchar('\t');
+		j = 0;
 	}
 }
