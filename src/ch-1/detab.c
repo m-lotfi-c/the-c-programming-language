@@ -11,14 +11,15 @@ int main()
 	lineidx = 0;
 	while ((c = getchar()) != EOF) {
 		if (c == '\t') {
-			detab(lineidx, TABSTOP);
+			detab(lineidx++, TABSTOP);
 			continue;
 		}
 		else if (c == '\n') {
 			lineidx = 0;
+		} else {
+			putchar(c);
+			lineidx++;
 		}
-		putchar(c);
-	
 	}
 
 	return 0;
@@ -28,7 +29,7 @@ void detab(int lineidx, int tabstop)
 {
 	int spaces, i;
 
-	spaces = tabstop - (lineidx % tabstop);
+	spaces = tabstop - (lineidx % tabstop) + 1;
 	for (i = 0; i < spaces; ++i) {
 		putchar(' ');
 	}

@@ -17,6 +17,13 @@ all: $(SOURCES)
 $(SOURCES): %: %.c
 	$(CC) $(CFLAGS) $< -o out/$@
 
+.PHONY: test
+test:
+	@for test in test/*-test.sh ; do \
+		echo $$test && \
+		bash $$test ; \
+	done
+
 .PHONY: clean
 clean:
 	rm -f out/*
